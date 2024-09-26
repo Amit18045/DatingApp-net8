@@ -14,6 +14,7 @@ namespace API.Controllers
 
     public class AccountController(DataContext context,ITokenSerices tokenSerices) : BaseApiController
     {
+        [Authorize]
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
