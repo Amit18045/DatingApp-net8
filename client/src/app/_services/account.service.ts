@@ -14,6 +14,7 @@ export class AccountService {
 
  
   login(model: any) {
+    debugger
     return this.http.post<User>(`${this.baseUrl}account/login`, model).pipe(
       map(user => {
         if (user) {
@@ -43,4 +44,6 @@ export class AccountService {
     this.currentUser.set(null);
   }
 
+
+  
 }
