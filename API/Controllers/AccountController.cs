@@ -14,16 +14,16 @@ namespace API.Controllers
 
     public class AccountController(DataContext context,ITokenSerices tokenSerices) : BaseApiController
     {
-        [Authorize]
+      
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await UserExist(registerDto.UserName)) return Unauthorized("UserName is taken");
+            if (await UserExist(registerDto.Username)) return Unauthorized("UserName is taken");
 
             using var hmac = new HMACSHA512();
             var user = new AppUser
             {
-                UserName = registerDto.UserName,
+                UserName = registerDto.Username,
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                 Passwordsalt = hmac.Key,
             };
@@ -39,7 +39,7 @@ namespace API.Controllers
 
 
         [HttpPost("login")]
-
+  [Authorize]
         public async Task<ActionResult<UserDto>> login(LoginDto loginDto)
         {
             var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.UserName.ToLower());
