@@ -8,7 +8,8 @@ namespace API.Extensions;
 
 public static class ApplicationServiceExtension
 {
-    public static IServiceCollection AddApplicationService(this IServiceCollection service, IConfiguration configuration)
+    public static IServiceCollection AddApplicationService(this IServiceCollection service, 
+    IConfiguration configuration)
     {
 
         service.AddControllers();
@@ -19,6 +20,8 @@ public static class ApplicationServiceExtension
         });
         service.AddCors();
         service.AddScoped<ITokenSerices, TokenService>();
+        service.AddScoped<IUserRepository,UserRespository>();
+        service.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         return service;
     }
 }

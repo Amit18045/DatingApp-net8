@@ -1,6 +1,6 @@
 using System;
 
-namespace API.DTOs;
+namespace API.Errors;
 
 public class ApiException(int statuscode, string message, string? details)
 {
@@ -9,4 +9,3 @@ public class ApiException(int statuscode, string message, string? details)
     public string? Details { get; set; } = details;
 
 }
-

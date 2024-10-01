@@ -1,29 +1,32 @@
+using System;
 using API.Data;
+using API.DTOs;
 using API.Entities;
+using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+
+public class UserController(IUserRepository userRepository) : BaseApiController
 {
-
-    public class UserController(DataContext context) : BaseApiController
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<MemberDto>>> user()
     {
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>>GetUser()
-        {
-            var user = await context.Users.ToListAsync();
-            return user;
-        }
-[Authorize]
-        [HttpGet("{id:int}")]
-        public async Task <ActionResult<AppUser>> GetUserById(int id)
-        {
-            var user = await context.Users.FindAsync(id);
-            if(user==null) NotFound();
-            return user;
-        }
+        var users = await userRepository.GetMembersAsync();
+        
+        return Ok(users);
+    }
+    [Authorize]
+    [HttpGet("username")]
+    public async Task<ActionResult<MemberDto>> Getuser(string username)
+    {
+        var user = await userRepository.GetMemberAsync(username);
+        if (user == null) return NotFound();
+        return user;
     }
 }
