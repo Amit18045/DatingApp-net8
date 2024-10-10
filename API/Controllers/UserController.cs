@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.Controllers;
 
-
+   [Authorize]
 public class UserController(IUserRepository userRepository) : BaseApiController
 {
     [HttpGet]
@@ -22,7 +22,7 @@ public class UserController(IUserRepository userRepository) : BaseApiController
         return Ok(users);
     }
     [Authorize]
-    [HttpGet("username")]
+    [HttpGet("{username}")]
     public async Task<ActionResult<MemberDto>> Getuser(string username)
     {
         var user = await userRepository.GetMemberAsync(username);

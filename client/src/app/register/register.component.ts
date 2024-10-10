@@ -11,19 +11,20 @@ import { AccountService } from '../_services/account.service';
 })
 export class RegisterComponent {
   model: any = {};
-  cancelRegister=output<boolean>();
-   private accountsrc= inject(AccountService);
+  cancelRegister = output<boolean>();
+  private accountsrc = inject(AccountService);
   register() {
     debugger;
     this.accountsrc.register(this.model).subscribe({
-     next: response=>{console.log(response);
-       this.cancel()
-     },
-     error: error=> console.log(error),
+      next: response => {
+        console.log(response);
+        this.cancel()
+      },
+      error: error => console.log(error),
     })
-   }
- 
-  cancel(){
+  }
+
+  cancel() {
     this.cancelRegister.emit(false);
   }
 
